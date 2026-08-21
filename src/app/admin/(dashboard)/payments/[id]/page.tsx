@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { requireModuleAccess } from "@/lib/auth/access";
 import { InstallmentsManager } from "@/app/admin/(dashboard)/payments/[id]/installments-manager";
 
 const eur = new Intl.NumberFormat("el-GR", { style: "currency", currency: "EUR" });
@@ -13,6 +14,7 @@ export const metadata: Metadata = { title: "Δόσεις πληρωμής" };
 
 export default async function PaymentDetailPage({ params }: Props) {
   const { id } = await params;
+  const access = await requireModuleAccess("payments");
   const supabase = await createClient();
 
   const [{ data: payment }, { data: installments }] = await Promise.all([
@@ -47,7 +49,11 @@ export default async function PaymentDetailPage({ params }: Props) {
         </p>
       </div>
 
-      <InstallmentsManager paymentId={payment.id} rows={installments ?? []} />
+      <InstallmentsManager
+        paymentId={payment.id}
+        rows={installments ?? []}
+        canManage={access.permissions.payments === "manage"}
+      />
     </div>
   );
 }

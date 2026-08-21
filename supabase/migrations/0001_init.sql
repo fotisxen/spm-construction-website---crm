@@ -165,7 +165,7 @@ create table public.income (
   id uuid primary key default gen_random_uuid(),
   project_id uuid references public.projects (id) on delete cascade,
   category text not null check (category in (
-    'πώληση_ακινήτου', 'έκδοση_σύνδεση_λογαριασμών', 'ενοίκιο', 'άλλο'
+    'πώληση_ακινήτου', 'ανακαίνιση', 'έκδοση_σύνδεση_λογαριασμών', 'ενοίκιο', 'άλλο'
   )),
   amount numeric not null,
   date date not null default current_date,

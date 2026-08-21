@@ -13,9 +13,11 @@ const eur = new Intl.NumberFormat("el-GR", { style: "currency", currency: "EUR" 
 export function InstallmentsManager({
   paymentId,
   rows,
+  canManage,
 }: {
   paymentId: string;
   rows: Installment[];
+  canManage: boolean;
 }) {
   const nextNumber = rows.length > 0 ? Math.max(...rows.map((r) => r.installment_number)) + 1 : 1;
 
@@ -45,6 +47,7 @@ export function InstallmentsManager({
         <InstallmentForm row={row} paymentId={paymentId} nextNumber={nextNumber} onDone={onDone} />
       )}
       emptyLabel="Δεν υπάρχουν ακόμα δόσεις."
+      canManage={canManage}
     />
   );
 }

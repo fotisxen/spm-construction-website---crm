@@ -9,8 +9,32 @@ export const EXPENSE_CATEGORIES = [
 ] as const;
 
 export const INCOME_CATEGORIES = [
-  "πώληση_ακινήτου", "έκδοση_σύνδεση_λογαριασμών", "ενοίκιο", "άλλο",
+  "πώληση_ακινήτου", "ανακαίνιση", "έκδοση_σύνδεση_λογαριασμών", "ενοίκιο", "άλλο",
 ] as const;
+
+export const MODULES = [
+  "properties", "projects", "contacts", "payments",
+  "expenses", "income", "supplies", "reports",
+] as const;
+
+export const MODULE_LABELS: Record<(typeof MODULES)[number], string> = {
+  properties: "Ακίνητα",
+  projects: "Projects",
+  contacts: "Συνεργάτες",
+  payments: "Πληρωμές",
+  expenses: "Έξοδα",
+  income: "Έσοδα",
+  supplies: "Προμήθειες",
+  reports: "Αναφορές",
+};
+
+export const ACCESS_LEVELS = ["none", "view", "manage"] as const;
+
+export const ACCESS_LEVEL_LABELS: Record<(typeof ACCESS_LEVELS)[number], string> = {
+  none: "Καμία πρόσβαση",
+  view: "Μόνο προβολή",
+  manage: "Πλήρης πρόσβαση",
+};
 
 export const DEFAULT_PHASES = [
   {

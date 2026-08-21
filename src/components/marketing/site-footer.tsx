@@ -16,9 +16,18 @@ export function SiteFooter() {
         </div>
         <div className="text-sm text-paper/70">
           <p className="font-medium text-paper">Επικοινωνία</p>
-          <p className="mt-3">{siteConfig.phone}</p>
-          <p>{siteConfig.email}</p>
-          <p>{siteConfig.address}</p>
+          <a
+            href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+            className="mt-3 block transition-colors hover:text-paper"
+          >
+            {siteConfig.phone}
+          </a>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="block transition-colors hover:text-paper"
+          >
+            {siteConfig.email}
+          </a>
         </div>
         <div className="text-sm text-paper/70">
           <p className="font-medium text-paper">Σύνδεσμοι</p>

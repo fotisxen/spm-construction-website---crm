@@ -1,8 +1,19 @@
 import Link from "next/link";
-import { ArrowUpRight, Hammer, KeyRound, LineChart, ShieldCheck } from "lucide-react";
+import {
+  ArrowUpRight,
+  Hammer,
+  Leaf,
+  LineChart,
+  PhoneCall,
+  Ruler,
+  ShieldCheck,
+} from "lucide-react";
 import { Container } from "@/components/marketing/container";
 import { PortfolioCard } from "@/components/marketing/portfolio-card";
-import { siteConfig } from "@/lib/site-config";
+import { HeroCarousel } from "@/components/marketing/hero-carousel";
+import { BeforeAfterSlider } from "@/components/marketing/before-after-slider";
+import { Reveal } from "@/components/marketing/reveal";
+import { ScrollStory } from "@/components/marketing/renovation-story/scroll-story";
 import { getPublicProjects } from "@/lib/data/public-projects";
 
 const PHASES = [
@@ -40,9 +51,19 @@ const DIFFERENTIATORS = [
     body: "Ξέρεις από την αρχή τι καλύπτει κάθε δόση και πότε ολοκληρώνεται κάθε φάση.",
   },
   {
-    icon: KeyRound,
-    title: "Από αγορά μέχρι παράδοση",
-    body: "Είτε αγοράζουμε & ανακαινίζουμε προς πώληση, είτε αναλαμβάνουμε το ακίνητό σου.",
+    icon: Ruler,
+    title: "Κάθε κλίμακα, ίδια προσοχή",
+    body: "Από ένα μπάνιο μέχρι ολόκληρο διαμέρισμα — αναλαμβάνουμε μερικές και ολικές ανακαινίσεις με την ίδια σχολαστικότητα.",
+  },
+  {
+    icon: Leaf,
+    title: "Ενεργειακή αναβάθμιση",
+    body: "Θερμομόνωση και κουφώματα που μειώνουν πραγματικά το κόστος θέρμανσης και ψύξης, όχι μόνο την αισθητική.",
+  },
+  {
+    icon: PhoneCall,
+    title: "Ένας υπεύθυνος επικοινωνίας",
+    body: "Δεν χρειάζεται να τρέχεις πίσω από τον κάθε μάστορα — μιλάς πάντα με τον ίδιο άνθρωπο για την πορεία του έργου.",
   },
 ];
 
@@ -52,113 +73,102 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-ink/10">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklch,var(--brand)_14%,transparent),transparent_60%)]" />
-        <Container className="grid gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-28">
-          <div>
-            <span className="inline-flex items-center rounded-full border border-ink/15 px-3 py-1 text-xs font-medium tracking-wide text-ink-soft uppercase">
-              Ανακαινίσεις ακινήτων
-            </span>
-            <h1 className="mt-6 font-heading text-4xl leading-[1.08] font-semibold tracking-tight text-ink sm:text-5xl lg:text-6xl">
-              Ανακαινίζουμε ακίνητα σαν να ήταν δικά μας.
-            </h1>
-            <p className="mt-6 max-w-lg text-lg text-ink-soft">
-              {siteConfig.name} αναλαμβάνει ανακαινίσεις από την πρώτη
-              σκαπάνη μέχρι το κλειδί στο χέρι — είτε είναι δικό σου ακίνητο,
-              είτε ένα project αγοράς-ανακαίνισης-πώλησης.
-            </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                href="/epikoinonia"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-7 text-sm font-semibold text-brand-foreground transition-colors hover:opacity-90"
-              >
-                Ζήτησε προσφορά
-              </Link>
-              <Link
-                href="/portfolio"
-                className="inline-flex h-12 items-center justify-center gap-1 rounded-full px-7 text-sm font-semibold text-ink transition-colors hover:bg-paper-warm"
-              >
-                Δες έργα μας
-                <ArrowUpRight className="size-4" />
-              </Link>
-            </div>
-          </div>
+      {/* Hero: full-bleed photo carousel with headline overlaid */}
+      <HeroCarousel />
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 rounded-2xl border border-ink/10 bg-paper-warm p-6">
-              <p className="font-heading text-3xl font-semibold text-ink">
-                3 φάσεις
-              </p>
-              <p className="mt-1 text-sm text-ink-soft">
-                Ξεκάθαρο χρονοδιάγραμμα και προϋπολογισμός σε κάθε έργο, από
-                την προκαταβολή μέχρι την παράδοση.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-ink/10 bg-ink p-6 text-paper">
-              <p className="font-heading text-2xl font-semibold">Flip</p>
-              <p className="mt-1 text-sm text-paper/70">
-                Αγορά, ανακαίνιση, πώληση.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-ink/10 bg-brand p-6 text-brand-foreground">
-              <p className="font-heading text-2xl font-semibold">Πελάτη</p>
-              <p className="mt-1 text-sm text-brand-foreground/85">
-                Ανακαινίζουμε το δικό σου ακίνητο.
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* 3D scroll story: before -> during -> after */}
+      <ScrollStory />
 
       {/* Process / transparency */}
       <section className="py-20">
         <Container>
-          <div className="max-w-2xl">
-            <h2 className="font-heading text-3xl font-semibold text-ink">
-              Πώς δουλεύουμε
-            </h2>
-            <p className="mt-3 text-ink-soft">
-              Κάθε ανακαίνιση χωρίζεται σε 3 φάσεις με σαφές αντικείμενο, ώστε
-              να ξέρεις πάντα πού βρίσκεται το έργο σου.
-            </p>
-          </div>
+          <Reveal variant="fade-up">
+            <div className="max-w-2xl">
+              <h2 className="font-heading text-3xl font-semibold text-ink">
+                Πώς δουλεύουμε
+              </h2>
+              <p className="mt-3 text-ink-soft">
+                Κάθε ανακαίνιση χωρίζεται σε 3 φάσεις με σαφές αντικείμενο,
+                ώστε να ξέρεις πάντα πού βρίσκεται το έργο σου.
+              </p>
+            </div>
+          </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {PHASES.map((phase) => (
-              <div
-                key={phase.number}
-                className="rounded-2xl border border-ink/10 p-7"
-              >
-                <span className="font-heading text-4xl font-semibold text-brand-soft">
-                  {phase.number}
-                </span>
-                <h3 className="mt-4 font-heading text-lg font-semibold text-ink">
-                  {phase.title}
-                </h3>
-                <p className="mt-2 text-sm text-ink-soft">{phase.detail}</p>
-              </div>
+            {PHASES.map((phase, i) => (
+              <Reveal key={phase.number} variant="fade-up" delay={i * 100}>
+                <div className="rounded-2xl border border-ink/10 p-7">
+                  <span className="font-heading text-4xl font-semibold text-brand-soft">
+                    {phase.number}
+                  </span>
+                  <h3 className="mt-4 font-heading text-lg font-semibold text-ink">
+                    {phase.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-ink-soft">{phase.detail}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
+        </Container>
+      </section>
+
+      {/* Interactive before/after */}
+      <section className="border-t border-ink/10 py-20">
+        <Container>
+          <Reveal variant="slide-right">
+            <div className="max-w-2xl">
+              <h2 className="font-heading text-3xl font-semibold text-ink">
+                Δες τη διαφορά
+              </h2>
+              <p className="mt-3 text-ink-soft">
+                Σύρε το χερούλι για να δεις πριν και μετά — έτσι θα δείχνουν
+                τα πραγματικά μας έργα εδώ.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal variant="zoom-in" delay={100}>
+            <div className="mt-10">
+              <BeforeAfterSlider
+                before={{ tone: "from-[#6b6156] to-[#5b5148]", label: "Πριν την ανακαίνιση" }}
+                after={{ tone: "from-brand to-[#b6884f]", label: "Μετά την ανακαίνιση" }}
+              />
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* Mission statement */}
+      <section className="py-16">
+        <Container>
+          <Reveal variant="fade-in" duration={1000}>
+            <p className="mx-auto max-w-3xl text-center font-heading text-2xl leading-snug font-medium text-ink sm:text-3xl">
+              Δεν πουλάμε υποσχέσεις. Παραδίδουμε αυτό που συμφωνήσαμε,{" "}
+              <span className="text-brand">όταν</span> το συμφωνήσαμε.
+            </p>
+          </Reveal>
         </Container>
       </section>
 
       {/* Differentiators */}
       <section className="border-y border-ink/10 bg-paper-warm py-20">
         <Container>
-          <h2 className="font-heading text-3xl font-semibold text-ink">
-            Γιατί εμάς
-          </h2>
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {DIFFERENTIATORS.map(({ icon: Icon, title, body }) => (
-              <div key={title}>
-                <div className="flex size-11 items-center justify-center rounded-full bg-brand/10 text-brand">
-                  <Icon className="size-5" />
+          <Reveal variant="fade-up">
+            <h2 className="font-heading text-3xl font-semibold text-ink">
+              Γιατί εμάς
+            </h2>
+          </Reveal>
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {DIFFERENTIATORS.map(({ icon: Icon, title, body }, i) => (
+              <Reveal key={title} variant="zoom-in" delay={(i % 3) * 90}>
+                <div className="group rounded-2xl p-2 transition-transform hover:-translate-y-1">
+                  <div className="flex size-11 items-center justify-center rounded-full bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-brand-foreground">
+                    <Icon className="size-5" />
+                  </div>
+                  <h3 className="mt-4 font-heading text-base font-semibold text-ink">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm text-ink-soft">{body}</p>
                 </div>
-                <h3 className="mt-4 font-heading text-base font-semibold text-ink">
-                  {title}
-                </h3>
-                <p className="mt-2 text-sm text-ink-soft">{body}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -167,29 +177,33 @@ export default async function HomePage() {
       {/* Portfolio preview */}
       <section className="py-20">
         <Container>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="font-heading text-3xl font-semibold text-ink">
-                Πρόσφατα έργα
-              </h2>
-              {isPlaceholder && (
-                <p className="mt-2 text-sm text-ink-soft">
-                  [PLACEHOLDER] Ενδεικτικά παραδείγματα — θα αντικατασταθούν
-                  με πραγματικά έργα.
-                </p>
-              )}
+          <Reveal variant="slide-left">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h2 className="font-heading text-3xl font-semibold text-ink">
+                  Πρόσφατα έργα
+                </h2>
+                {isPlaceholder && (
+                  <p className="mt-2 text-sm text-ink-soft">
+                    [PLACEHOLDER] Ενδεικτικά παραδείγματα — θα αντικατασταθούν
+                    με πραγματικά έργα.
+                  </p>
+                )}
+              </div>
+              <Link
+                href="/portfolio"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-brand"
+              >
+                Όλα τα έργα
+                <ArrowUpRight className="size-4" />
+              </Link>
             </div>
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center gap-1 text-sm font-semibold text-brand"
-            >
-              Όλα τα έργα
-              <ArrowUpRight className="size-4" />
-            </Link>
-          </div>
+          </Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((project) => (
-              <PortfolioCard key={project.id} project={project} />
+            {featured.map((project, i) => (
+              <Reveal key={project.id} variant="fade-up" delay={i * 100}>
+                <PortfolioCard project={project} />
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -198,21 +212,23 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="pb-24">
         <Container>
-          <div className="rounded-3xl bg-ink px-8 py-16 text-center text-paper sm:px-16">
-            <h2 className="font-heading text-3xl font-semibold sm:text-4xl">
-              Έχεις ένα ακίνητο που χρειάζεται ανακαίνιση;
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-paper/70">
-              Πες μας λίγα λόγια για το ακίνητο και το έργο σου — θα
-              επικοινωνήσουμε μαζί σου για δωρεάν αρχική εκτίμηση.
-            </p>
-            <Link
-              href="/epikoinonia"
-              className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-brand px-8 text-sm font-semibold text-brand-foreground transition-colors hover:opacity-90"
-            >
-              Ζήτησε προσφορά
-            </Link>
-          </div>
+          <Reveal variant="zoom-in">
+            <div className="rounded-3xl bg-ink px-8 py-16 text-center text-paper sm:px-16">
+              <h2 className="font-heading text-3xl font-semibold sm:text-4xl">
+                Έχεις ένα ακίνητο που χρειάζεται ανακαίνιση;
+              </h2>
+              <p className="mx-auto mt-4 max-w-lg text-paper/70">
+                Πες μας λίγα λόγια για το ακίνητο και το έργο σου — θα
+                επικοινωνήσουμε μαζί σου για δωρεάν αρχική εκτίμηση.
+              </p>
+              <Link
+                href="/epikoinonia"
+                className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-brand px-8 text-sm font-semibold text-brand-foreground transition-colors hover:opacity-90"
+              >
+                Ζήτησε προσφορά
+              </Link>
+            </div>
+          </Reveal>
         </Container>
       </section>
     </>

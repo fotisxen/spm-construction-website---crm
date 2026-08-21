@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { ImageUpload } from "@/components/admin/image-upload";
 import {
   Select,
   SelectContent,
@@ -94,7 +95,11 @@ export function ProjectForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Ακίνητο</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                items={properties.map((p) => ({ value: p.id, label: p.label }))}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Επίλεξε ακίνητο" />
@@ -132,7 +137,14 @@ export function ProjectForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Τύπος</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: "flip", label: "Flip" },
+                    { value: "client_owned", label: "Ακίνητο πελάτη" },
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />
@@ -153,7 +165,14 @@ export function ProjectForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Έκταση</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: "full", label: "Πλήρης" },
+                    { value: "partial", label: "Μερική (π.χ. μπάνιο)" },
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />
@@ -189,7 +208,15 @@ export function ProjectForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Κατάσταση</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: "planning", label: "Σχεδιασμός" },
+                    { value: "in_progress", label: "Σε εξέλιξη" },
+                    { value: "completed", label: "Ολοκληρωμένο" },
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />
@@ -298,9 +325,12 @@ export function ProjectForm({
             name="cover_image_url"
             render={({ field }) => (
               <FormItem className="mt-4">
-                <FormLabel>Εικόνα εξωφύλλου (URL)</FormLabel>
+                <FormLabel>Φωτογραφία εξωφύλλου</FormLabel>
+                <p className="text-xs text-muted-foreground">
+                  Εμφανίζεται στο δημόσιο portfolio αν το project είναι ορατό στο website.
+                </p>
                 <FormControl>
-                  <Input {...field} />
+                  <ImageUpload value={field.value ?? ""} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -22,10 +22,12 @@ export function PaymentsManager({
   rows,
   projects,
   contacts,
+  canManage,
 }: {
   rows: Payment[];
   projects: Option[];
   contacts: Option[];
+  canManage: boolean;
 }) {
   const projectLabel = (id: string) => projects.find((p) => p.id === id)?.label ?? "—";
   const contactLabel = (id: string | null) => contacts.find((c) => c.id === id)?.label ?? "—";
@@ -60,6 +62,7 @@ export function PaymentsManager({
       renderForm={({ row, onDone }) => (
         <PaymentForm row={row} projects={projects} contacts={contacts} onDone={onDone} />
       )}
+      canManage={canManage}
     />
   );
 }

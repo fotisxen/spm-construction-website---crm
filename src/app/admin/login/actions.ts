@@ -20,11 +20,24 @@ export async function login(
     const supabase = await createClient();
     const { error } = await supabase.auth.signInWithPassword(parsed.data);
     if (error) {
-      return { success: false, error: "Λάθος στοιχεία σύνδεσης" };
+      if (error.message.toLowerCase().includes("email not confirmed")) {
+        return {
+          success: false,
+          error:
+            "Το email δεν έχει επιβεβαιωθεί ακόμα. Στο Supabase dashboard -> Authentication -> Users, άνοιξε τον χρήστη και κάνε 'Confirm email' χειροκίνητα (ή απενεργοποίησε το 'Confirm email' απαίτηση από Authentication -> Providers -> Email).",
+        };
+      }
+      // Surfaced as-is for now (only reaches this admin-only login) so we can see the real cause.
+      return { success: false, error: `Σφάλμα σύνδεσης: ${error.message}` };
     }
     return { success: true };
-  } catch {
-    return { success: false, error: "Δεν ήταν δυνατή η σύνδεση. Δοκίμασε ξανά." };
+  } catch (e) {
+    console.error("Login fetch failure:", e);
+    const cause = e instanceof Error && e.cause instanceof Error ? e.cause.message : undefined;
+    return {
+      success: false,
+      error: `Δεν ήταν δυνατή η σύνδεση: ${e instanceof Error ? e.message : "άγνωστο σφάλμα"}${cause ? ` (${cause})` : ""}`,
+    };
   }
 }
 

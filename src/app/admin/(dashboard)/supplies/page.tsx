@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+import { requireModuleAccess } from "@/lib/auth/access";
 import { SuppliesManager } from "@/app/admin/(dashboard)/supplies/supplies-manager";
 
 export const metadata: Metadata = { title: "Προμήθειες" };
 
 export default async function SuppliesPage() {
+  const access = await requireModuleAccess("supplies");
   const supabase = await createClient();
   const [{ data: supplies }, { data: projects }, { data: contacts }] =
     await Promise.all([
@@ -21,6 +23,7 @@ export default async function SuppliesPage() {
       rows={supplies ?? []}
       projects={(projects ?? []).map((p) => ({ id: p.id, label: p.title }))}
       contacts={(contacts ?? []).map((c) => ({ id: c.id, label: c.name }))}
+      canManage={access.permissions.supplies === "manage"}
     />
   );
 }

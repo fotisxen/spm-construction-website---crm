@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/lib/supabase/server";
+import { requireModuleAccess } from "@/lib/auth/access";
 import { PhasesEditor } from "@/app/admin/(dashboard)/projects/[id]/phases-editor";
 
 const eur = new Intl.NumberFormat("el-GR", { style: "currency", currency: "EUR" });
@@ -21,6 +22,7 @@ export const metadata: Metadata = { title: "Project" };
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;
+  const access = await requireModuleAccess("projects");
   const supabase = await createClient();
 
   const [{ data: project }, { data: phases }, { data: payments }, { data: expenses }] =
@@ -102,7 +104,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
       <div>
         <h2 className="mb-3 text-lg font-semibold">Φάσεις & χρονοδιάγραμμα</h2>
-        <PhasesEditor phases={phases ?? []} />
+        <PhasesEditor phases={phases ?? []} canManage={access.permissions.projects === "manage"} />
       </div>
     </div>
   );

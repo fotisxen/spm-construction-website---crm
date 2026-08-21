@@ -14,9 +14,11 @@ const eur = new Intl.NumberFormat("el-GR", { style: "currency", currency: "EUR" 
 export function ExpensesManager({
   rows,
   projects,
+  canManage,
 }: {
   rows: Expense[];
   projects: ProjectOption[];
+  canManage: boolean;
 }) {
   const projectTitle = (id: string | null) =>
     projects.find((p) => p.id === id)?.title ?? "Εταιρικό / πάγιο";
@@ -39,6 +41,7 @@ export function ExpensesManager({
       renderForm={({ row, onDone }) => (
         <ExpenseForm row={row} projects={projects} onDone={onDone} />
       )}
+      canManage={canManage}
     />
   );
 }

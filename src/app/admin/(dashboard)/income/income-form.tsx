@@ -84,7 +84,14 @@ export function IncomeForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Project</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                items={[
+                  { value: NO_PROJECT, label: "Γενικό (κανένα project)" },
+                  ...projects.map((p) => ({ value: p.id, label: p.title })),
+                ]}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue />
@@ -110,7 +117,11 @@ export function IncomeForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Κατηγορία</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={INCOME_CATEGORIES.map((cat) => ({ value: cat, label: cat }))}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />

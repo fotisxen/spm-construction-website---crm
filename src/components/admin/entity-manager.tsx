@@ -46,6 +46,8 @@ type EntityManagerProps<T> = {
   renderForm: (props: { row: T | null; onDone: () => void }) => ReactNode;
   onDelete: (row: T) => Promise<{ error?: string } | void>;
   emptyLabel?: string;
+  /** false = read-only view (no create/edit/delete). Defaults to true. */
+  canManage?: boolean;
 };
 
 export function EntityManager<T>({
@@ -57,6 +59,7 @@ export function EntityManager<T>({
   renderForm,
   onDelete,
   emptyLabel = "Δεν υπάρχουν ακόμα εγγραφές.",
+  canManage = true,
 }: EntityManagerProps<T>) {
   const [open, setOpen] = useState(false);
   const [editingRow, setEditingRow] = useState<T | null>(null);
@@ -90,10 +93,12 @@ export function EntityManager<T>({
           <CardTitle>{title}</CardTitle>
           {description && <CardDescription>{description}</CardDescription>}
         </div>
-        <Button size="sm" onClick={openCreate}>
-          <Plus className="size-4" />
-          Νέα εγγραφή
-        </Button>
+        {canManage && (
+          <Button size="sm" onClick={openCreate}>
+            <Plus className="size-4" />
+            Νέα εγγραφή
+          </Button>
+        )}
       </CardHeader>
       <CardContent>
         {rows.length === 0 ? (
@@ -110,7 +115,7 @@ export function EntityManager<T>({
                       {col.header}
                     </TableHead>
                   ))}
-                  <TableHead className="w-20 text-right">Ενέργειες</TableHead>
+                  {canManage && <TableHead className="w-20 text-right">Ενέργειες</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -121,39 +126,41 @@ export function EntityManager<T>({
                         {col.cell(row)}
                       </TableCell>
                     ))}
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => openEdit(row)}
-                        >
-                          <Pencil className="size-4" />
-                        </Button>
-                        <AlertDialog>
-                          <AlertDialogTrigger render={<Button variant="ghost" size="icon" />}>
-                            <Trash2 className="size-4" />
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Διαγραφή εγγραφής;</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Η ενέργεια δεν αναιρείται.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Άκυρο</AlertDialogCancel>
-                              <AlertDialogAction
-                                disabled={deletingId === getRowId(row)}
-                                onClick={() => handleDelete(row)}
-                              >
-                                Διαγραφή
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </TableCell>
+                    {canManage && (
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => openEdit(row)}
+                          >
+                            <Pencil className="size-4" />
+                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger render={<Button variant="ghost" size="icon" />}>
+                              <Trash2 className="size-4" />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Διαγραφή εγγραφής;</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Η ενέργεια δεν αναιρείται.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Άκυρο</AlertDialogCancel>
+                                <AlertDialogAction
+                                  disabled={deletingId === getRowId(row)}
+                                  onClick={() => handleDelete(row)}
+                                >
+                                  Διαγραφή
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

@@ -19,7 +19,7 @@ const columns: Column<Property>[] = [
   { header: "Τύπος", cell: (row) => ACQUISITION_LABEL[row.acquisition_type] },
 ];
 
-export function PropertiesManager({ rows }: { rows: Property[] }) {
+export function PropertiesManager({ rows, canManage }: { rows: Property[]; canManage: boolean }) {
   return (
     <EntityManager
       title="Ακίνητα"
@@ -29,6 +29,7 @@ export function PropertiesManager({ rows }: { rows: Property[] }) {
       getRowId={(row) => row.id}
       onDelete={(row) => deleteProperty(row.id)}
       renderForm={({ row, onDone }) => <PropertyForm row={row} onDone={onDone} />}
+      canManage={canManage}
     />
   );
 }

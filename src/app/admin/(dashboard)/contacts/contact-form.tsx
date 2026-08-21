@@ -88,7 +88,11 @@ export function ContactForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Ειδικότητα</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                items={CONTACT_CATEGORIES.map((cat) => ({ value: cat, label: cat }))}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue />

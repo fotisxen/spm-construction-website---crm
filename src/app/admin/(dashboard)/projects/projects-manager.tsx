@@ -21,9 +21,11 @@ const eur = new Intl.NumberFormat("el-GR", { style: "currency", currency: "EUR" 
 export function ProjectsManager({
   rows,
   properties,
+  canManage,
 }: {
   rows: Project[];
   properties: Option[];
+  canManage: boolean;
 }) {
   const propertyLabel = (id: string) =>
     properties.find((p) => p.id === id)?.label ?? "—";
@@ -54,6 +56,7 @@ export function ProjectsManager({
       renderForm={({ row, onDone }) => (
         <ProjectForm row={row} properties={properties} onDone={onDone} />
       )}
+      canManage={canManage}
     />
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { getFinancialOverview } from "@/lib/data/financial-summary";
+import { requireModuleAccess } from "@/lib/auth/access";
 import { MonthlyPlChart } from "@/components/admin/charts/monthly-pl-chart";
 import { CategoryPieChart } from "@/components/admin/charts/category-pie-chart";
 import { BudgetActualChart } from "@/components/admin/charts/budget-actual-chart";
@@ -9,6 +10,7 @@ import { SuppliesChart } from "@/components/admin/charts/supplies-chart";
 export const metadata: Metadata = { title: "Αναφορές" };
 
 export default async function ReportsPage() {
+  await requireModuleAccess("reports");
   const overview = await getFinancialOverview();
 
   return (

@@ -15,7 +15,7 @@ const columns: Column<Contact>[] = [
   { header: "Email", cell: (row) => row.email ?? "—" },
 ];
 
-export function ContactsManager({ rows }: { rows: Contact[] }) {
+export function ContactsManager({ rows, canManage }: { rows: Contact[]; canManage: boolean }) {
   return (
     <EntityManager
       title="Συνεργάτες"
@@ -25,6 +25,7 @@ export function ContactsManager({ rows }: { rows: Contact[] }) {
       getRowId={(row) => row.id}
       onDelete={(row) => deleteContact(row.id)}
       renderForm={({ row, onDone }) => <ContactForm row={row} onDone={onDone} />}
+      canManage={canManage}
     />
   );
 }

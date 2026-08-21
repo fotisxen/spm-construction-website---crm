@@ -92,7 +92,11 @@ export function PaymentForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Project</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={projects.map((p) => ({ value: p.id, label: p.label }))}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Επίλεξε" />
@@ -116,7 +120,14 @@ export function PaymentForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Συνεργάτης</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: NONE, label: "—" },
+                    ...contacts.map((c) => ({ value: c.id, label: c.label })),
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />
@@ -169,7 +180,14 @@ export function PaymentForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Τρόπος πληρωμής</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: "lump_sum", label: "Με αποκοπή (εφάπαξ)" },
+                    { value: "installments", label: "Με δόσεις" },
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />
@@ -205,7 +223,15 @@ export function PaymentForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Κατάσταση</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: "pending", label: "Εκκρεμεί" },
+                    { value: "partial", label: "Μερική" },
+                    { value: "paid", label: "Εξοφλήθηκε" },
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />

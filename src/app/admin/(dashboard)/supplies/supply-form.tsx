@@ -89,7 +89,11 @@ export function SupplyForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Project</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                items={projects.map((p) => ({ value: p.id, label: p.label }))}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Επίλεξε project" />
@@ -113,7 +117,14 @@ export function SupplyForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Προμηθευτής (προαιρετικό)</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                items={[
+                  { value: NONE, label: "—" },
+                  ...contacts.map((c) => ({ value: c.id, label: c.label })),
+                ]}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue />

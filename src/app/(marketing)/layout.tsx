@@ -15,7 +15,6 @@ export default function MarketingLayout({
     url: siteConfig.url,
     telephone: siteConfig.phone,
     email: siteConfig.email,
-    address: siteConfig.address,
     areaServed: siteConfig.areaServed,
   };
 

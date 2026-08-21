@@ -152,7 +152,14 @@ export function PropertyForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Τύπος</FormLabel>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={[
+                    { value: "flip", label: "Flip (αγορά/πώληση)" },
+                    { value: "client_owned", label: "Ακίνητο πελάτη" },
+                  ]}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue />

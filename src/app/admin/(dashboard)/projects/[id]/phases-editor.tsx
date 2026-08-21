@@ -20,7 +20,7 @@ type PhaseFormValues = {
   notes: string;
 };
 
-function PhaseCard({ phase }: { phase: Phase }) {
+function PhaseCard({ phase, canManage }: { phase: Phase; canManage: boolean }) {
   const form = useForm<PhaseFormValues>({
     defaultValues: {
       planned_start: phase.planned_start ?? "",
@@ -52,35 +52,37 @@ function PhaseCard({ phase }: { phase: Phase }) {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <div className="space-y-1.5">
               <Label>Έναρξη (προγρ.)</Label>
-              <Input type="date" {...form.register("planned_start")} />
+              <Input type="date" disabled={!canManage} {...form.register("planned_start")} />
             </div>
             <div className="space-y-1.5">
               <Label>Λήξη (προγρ.)</Label>
-              <Input type="date" {...form.register("planned_end")} />
+              <Input type="date" disabled={!canManage} {...form.register("planned_end")} />
             </div>
             <div className="space-y-1.5">
               <Label>Έναρξη (πραγμ.)</Label>
-              <Input type="date" {...form.register("actual_start")} />
+              <Input type="date" disabled={!canManage} {...form.register("actual_start")} />
             </div>
             <div className="space-y-1.5">
               <Label>Λήξη (πραγμ.)</Label>
-              <Input type="date" {...form.register("actual_end")} />
+              <Input type="date" disabled={!canManage} {...form.register("actual_end")} />
             </div>
           </div>
           <div className="space-y-1.5">
             <Label>Σημειώσεις</Label>
-            <Textarea rows={2} {...form.register("notes")} />
+            <Textarea rows={2} disabled={!canManage} {...form.register("notes")} />
           </div>
-          <Button type="submit" size="sm" disabled={form.formState.isSubmitting}>
-            Αποθήκευση φάσης
-          </Button>
+          {canManage && (
+            <Button type="submit" size="sm" disabled={form.formState.isSubmitting}>
+              Αποθήκευση φάσης
+            </Button>
+          )}
         </form>
       </CardContent>
     </Card>
   );
 }
 
-export function PhasesEditor({ phases }: { phases: Phase[] }) {
+export function PhasesEditor({ phases, canManage }: { phases: Phase[]; canManage: boolean }) {
   if (phases.length === 0) {
     return (
       <p className="text-sm text-muted-foreground">
@@ -96,7 +98,7 @@ export function PhasesEditor({ phases }: { phases: Phase[] }) {
         .slice()
         .sort((a, b) => a.phase_number - b.phase_number)
         .map((phase) => (
-          <PhaseCard key={phase.id} phase={phase} />
+          <PhaseCard key={phase.id} phase={phase} canManage={canManage} />
         ))}
     </div>
   );

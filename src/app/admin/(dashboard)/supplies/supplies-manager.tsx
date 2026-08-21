@@ -14,10 +14,12 @@ export function SuppliesManager({
   rows,
   projects,
   contacts,
+  canManage,
 }: {
   rows: Supply[];
   projects: Option[];
   contacts: Option[];
+  canManage: boolean;
 }) {
   const projectLabel = (id: string) =>
     projects.find((p) => p.id === id)?.label ?? "—";
@@ -45,6 +47,7 @@ export function SuppliesManager({
       renderForm={({ row, onDone }) => (
         <SupplyForm row={row} projects={projects} contacts={contacts} onDone={onDone} />
       )}
+      canManage={canManage}
     />
   );
 }

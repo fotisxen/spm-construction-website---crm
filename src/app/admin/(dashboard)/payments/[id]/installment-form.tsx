@@ -137,7 +137,14 @@ export function InstallmentForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Κατάσταση</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                items={[
+                  { value: "pending", label: "Εκκρεμεί" },
+                  { value: "paid", label: "Πληρώθηκε" },
+                ]}
+              >
                 <FormControl>
                   <SelectTrigger className="w-full">
                     <SelectValue />

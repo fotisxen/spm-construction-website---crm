@@ -13,6 +13,8 @@ import {
   Boxes,
   BarChart3,
   LogOut,
+  UserCog,
+  UsersRound,
 } from "lucide-react";
 import {
   Sidebar,
@@ -28,21 +30,31 @@ import {
 } from "@/components/ui/sidebar";
 import { siteConfig } from "@/lib/site-config";
 import { logout } from "@/app/admin/login/actions";
+import type { AccessLevel, ModuleName } from "@/lib/types/database";
 
-const NAV_ITEMS = [
-  { href: "/admin/dashboard", label: "Επισκόπηση", icon: LayoutDashboard },
-  { href: "/admin/properties", label: "Ακίνητα", icon: Building2 },
-  { href: "/admin/projects", label: "Projects", icon: FolderKanban },
-  { href: "/admin/contacts", label: "Συνεργάτες", icon: Users },
-  { href: "/admin/payments", label: "Πληρωμές", icon: Banknote },
-  { href: "/admin/expenses", label: "Έξοδα", icon: Receipt },
-  { href: "/admin/income", label: "Έσοδα", icon: TrendingUp },
-  { href: "/admin/supplies", label: "Προμήθειες", icon: Boxes },
-  { href: "/admin/reports", label: "Αναφορές", icon: BarChart3 },
+const NAV_ITEMS: { href: string; label: string; icon: typeof Building2; module: ModuleName | null }[] = [
+  { href: "/admin/dashboard", label: "Επισκόπηση", icon: LayoutDashboard, module: null },
+  { href: "/admin/properties", label: "Ακίνητα", icon: Building2, module: "properties" },
+  { href: "/admin/projects", label: "Projects", icon: FolderKanban, module: "projects" },
+  { href: "/admin/contacts", label: "Συνεργάτες", icon: Users, module: "contacts" },
+  { href: "/admin/payments", label: "Πληρωμές", icon: Banknote, module: "payments" },
+  { href: "/admin/expenses", label: "Έξοδα", icon: Receipt, module: "expenses" },
+  { href: "/admin/income", label: "Έσοδα", icon: TrendingUp, module: "income" },
+  { href: "/admin/supplies", label: "Προμήθειες", icon: Boxes, module: "supplies" },
+  { href: "/admin/reports", label: "Αναφορές", icon: BarChart3, module: "reports" },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({
+  isOwner,
+  permissions,
+}: {
+  isOwner: boolean;
+  permissions: Record<ModuleName, AccessLevel>;
+}) {
   const pathname = usePathname();
+  const visibleItems = NAV_ITEMS.filter(
+    (item) => item.module === null || permissions[item.module] !== "none"
+  );
 
   return (
     <Sidebar>
@@ -59,7 +71,7 @@ export function AdminSidebar() {
           <SidebarGroupLabel>Μενού</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {NAV_ITEMS.map((item) => (
+              {visibleItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
                     render={<Link href={item.href} />}
@@ -70,12 +82,32 @@ export function AdminSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {isOwner && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    render={<Link href="/admin/team" />}
+                    isActive={pathname?.startsWith("/admin/team")}
+                  >
+                    <UsersRound />
+                    <span>Ομάδα</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              render={<Link href="/admin/profile" />}
+              isActive={pathname?.startsWith("/admin/profile")}
+            >
+              <UserCog />
+              <span>Το προφίλ μου</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <form action={logout}>
               <SidebarMenuButton type="submit">

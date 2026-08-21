@@ -33,9 +33,20 @@ export type ExpenseCategory =
   | "άλλο";
 export type IncomeCategory =
   | "πώληση_ακινήτου"
+  | "ανακαίνιση"
   | "έκδοση_σύνδεση_λογαριασμών"
   | "ενοίκιο"
   | "άλλο";
+export type ModuleName =
+  | "properties"
+  | "projects"
+  | "contacts"
+  | "payments"
+  | "expenses"
+  | "income"
+  | "supplies"
+  | "reports";
+export type AccessLevel = "none" | "view" | "manage";
 
 export interface Database {
   public: {
@@ -44,7 +55,8 @@ export interface Database {
         Row: {
           id: string;
           full_name: string | null;
-          role: "admin";
+          email: string | null;
+          role: "owner" | "member" | "admin";
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["profiles"]["Row"]> & {
@@ -253,6 +265,20 @@ export interface Database {
           name: string;
         };
         Update: Partial<Database["public"]["Tables"]["contact_leads"]["Row"]>;
+        Relationships: [];
+      };
+      permissions: {
+        Row: {
+          id: string;
+          profile_id: string;
+          module: ModuleName;
+          access: AccessLevel;
+        };
+        Insert: Partial<Database["public"]["Tables"]["permissions"]["Row"]> & {
+          profile_id: string;
+          module: ModuleName;
+        };
+        Update: Partial<Database["public"]["Tables"]["permissions"]["Row"]>;
         Relationships: [];
       };
     };

@@ -7,6 +7,11 @@ const SCOPE_LABEL: Record<PublicProject["scope_size"], string> = {
   partial: "Μερική ανακαίνιση",
 };
 
+const STATUS_LABEL: Partial<Record<PublicProject["status"], string>> = {
+  in_progress: "Σε εξέλιξη",
+  completed: "Ολοκληρωμένο",
+};
+
 export function PortfolioCard({ project }: { project: PublicProject }) {
   return (
     <Link
@@ -14,15 +19,33 @@ export function PortfolioCard({ project }: { project: PublicProject }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-paper transition-shadow hover:shadow-lg hover:shadow-ink/5"
     >
       <div className="relative flex aspect-4/3 items-center justify-center overflow-hidden bg-paper-warm">
-        <div className="absolute inset-0 bg-[repeating-linear-gradient(135deg,color-mix(in_oklch,var(--ink)_6%,transparent)_0px,color-mix(in_oklch,var(--ink)_6%,transparent)_2px,transparent_2px,transparent_14px)]" />
-        <span className="relative text-xs font-medium tracking-wide text-ink-soft uppercase">
-          {project.cover_image_url ? "" : "Εικόνα έργου"}
-        </span>
+        {project.cover_image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={project.cover_image_url}
+            alt={project.title}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-[repeating-linear-gradient(135deg,color-mix(in_oklch,var(--ink)_6%,transparent)_0px,color-mix(in_oklch,var(--ink)_6%,transparent)_2px,transparent_2px,transparent_14px)]" />
+            <span className="relative text-xs font-medium tracking-wide text-ink-soft uppercase">
+              Εικόνα έργου
+            </span>
+          </>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-3 p-6">
-        <span className="w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
-          {SCOPE_LABEL[project.scope_size]}
-        </span>
+        <div className="flex flex-wrap gap-2">
+          <span className="w-fit rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
+            {SCOPE_LABEL[project.scope_size]}
+          </span>
+          {STATUS_LABEL[project.status] && project.status === "in_progress" && (
+            <span className="w-fit rounded-full border border-ink/15 px-3 py-1 text-xs font-medium text-ink-soft">
+              {STATUS_LABEL[project.status]}
+            </span>
+          )}
+        </div>
         <h3 className="font-heading text-lg leading-snug font-semibold text-ink">
           {project.title}
         </h3>
